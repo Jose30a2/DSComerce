@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	
+	@Column(unique = true)	// se configura que o campo email nao possa se repetir ( e unico e email)
 	private String email;
 	private String phone;
 	private LocalDate birthDate;
@@ -31,7 +34,6 @@ public class User {
 	public User() {}
 
 	public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
