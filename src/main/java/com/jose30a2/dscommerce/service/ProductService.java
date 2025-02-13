@@ -1,10 +1,17 @@
 package com.jose30a2.dscommerce.service;
 
+import java.util.List;
+
+import org.aspectj.weaver.NewParentTypeMunger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.PropertyValueConverter.ObjectToObjectPropertyValueConverter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jose30a2.dscommerce.dto.ProductDTO;
+import com.jose30a2.dscommerce.entities.Product;
 import com.jose30a2.dscommerce.repositories.ProductRepository;
 
 @Service
@@ -22,6 +29,19 @@ public class ProductService {
 		
 		return new ProductDTO(repository.findById(id).get());
 	}
+	
+	@Transactional(readOnly = true)
+	public Page<ProductDTO> findAll(Pageable pageable){
+		
+		Page<Product> result = repository.findAll(pageable);
+		
+		// Objeto Page ya es un Stream de java
+		
+		return result.map(x -> new ProductDTO(x));
+		
+	};
+		
+	
 	
 
 }
